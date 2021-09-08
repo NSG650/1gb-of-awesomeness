@@ -1,0 +1,26 @@
+{
+  "name": "1gb-of-awesomeness",
+  "version": "1.0.0",
+  "description": "A file uploader that allows people to upload files. The total folder containing files size limit is set to 1gb",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NSG650/1gb-of-awesomeness.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NSG650/1gb-of-awesomeness/issues"
+  },
+  "homepage": "https://github.com/NSG650/1gb-of-awesomeness#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "formidable": "^1.2.2"
+  }
+}

@@ -1,0 +1,19 @@
+<style>
+    h1 {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    p {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+</style>
+
+<h1>Hello World!</h1>
+
+<form action="file-upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="filetoupload"><br><br>
+    <input type="submit" value="upload!">
+</form>
+
+<p>Total folder size: <%= total_size %> MB</p>
+
+<p><a href="/get-files">See all the files uploaded</a></p>
