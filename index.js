@@ -58,7 +58,7 @@ app.post("/file-upload", (req, res) => {
     }
     var calc_after_file_add_size = get_total_size("./files") + files["filetoupload"].size / (1024 * 1024);
     if (calc_after_file_add_size > 950) {
-      return res.render("failure", {error: "FILE_SIZE_TOO_LARGE"});
+      return res.render("failure", {error: "OUT_OF_SPACE"});
     }
     fs.writeFile(newPath, rawData, function(err){
         if(err) res.send(err);
