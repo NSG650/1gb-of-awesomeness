@@ -1,8 +1,8 @@
 const http = require('http');
 const express = require('express');
-const app = express()
+const app = express();
 const formidable = require('formidable');
-const fs = require('fs')
+const fs = require('fs');
 const path = require('path');
 
 const get_all_files = function(dirPath, arrayOfFiles) {
@@ -24,7 +24,7 @@ const get_total_size = function(directoryPath) {
   arrayOfFiles.forEach(function(filePath) {
     totalSize += fs.statSync(filePath).size;
   });
-  return totalSize / (1000 * 1000);
+  return totalSize / (1024 * 1024);
 }
 
 app.set('view engine', 'ejs');
@@ -47,21 +47,24 @@ app.post("/file-upload", (req, res) => {
   var form = new formidable.IncomingForm();
   form.parse(req, function (err, fields, files) {
     var timeStamp = Date.now();
-    var oldPath = files.filetoupload.path;
-    var newPath = path.join(__dirname, `files/+${timeStamp}_${files.filetoupload.name}`);
+    if(files["filetoupload"] == undefined) {
+      return res.render("failure", {error: "FILE_FAILED_TO_UPLOAD"});
+    }
+    var oldPath = files["filetoupload"].path;
+    var newPath = path.join(__dirname, `files/${timeStamp}_${files["filetoupload"].name}`);
     var rawData = fs.readFileSync(oldPath);
-    if (files.filetoupload.size < 1) {
+    if (files["filetoupload"].size < 1) {
       return res.render("failure", {error: "FILE_SIZE_TOO_SMALL"});
     }
-    var calc_after_file_add_size = get_total_size() + files.filetoupload.size / (1000 * 1000);
+    var calc_after_file_add_size = get_total_size("./files") + files["filetoupload"].size / (1024 * 1024);
     if (calc_after_file_add_size > 950) {
       return res.render("failure", {error: "FILE_SIZE_TOO_LARGE"});
     }
     fs.writeFile(newPath, rawData, function(err){
         if(err) res.send(err);
-        return res.render("success", {file_name: files.filetoupload.name, 
-                                      file_name_x: (timeStamp + "_" + files.filetoupload.name), 
-                                      size: (files.filetoupload.size / (1000 * 1000))});
+        return res.render("success", {file_name: files["filetoupload"].name, 
+                                      file_name_x: (timeStamp + "_" + files["filetoupload"].name), 
+                                      size: (files["filetoupload"].size / (1024 * 1024))});
     });
   });
 });
